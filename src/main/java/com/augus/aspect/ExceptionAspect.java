@@ -1,17 +1,16 @@
 package com.augus.aspect;
 
+import com.augus.common.ErrorCodeEnum;
 import com.augus.common.StandardResponse;
 import com.augus.exception.TokenException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 连接响应异常
@@ -19,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @date 2018/7/9 15:12
  */
 @Slf4j
-@ResponseBody
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionAspect {
 
     /**
@@ -70,9 +68,19 @@ public class ExceptionAspect {
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(TokenException.class)
-    public @ResponseBody StandardResponse handleTokenException(Exception e) {
-        log.error("Token is invaild...", e);
-        return new StandardResponse().failure(500,"Token is invaild");
+    public StandardResponse handleTokenException(Exception e) {
+        log.error("Token is invalid...", e);
+        return new StandardResponse().failure(ErrorCodeEnum.TOKEN_INVALID);
+    }
+
+    /**
+     * 500 - Token is Expired
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(TokenExpiredException.class)
+    public StandardResponse handleTokenExpiredException(Exception e) {
+        log.error("Token is Expired...", e);
+        return new StandardResponse().failure(ErrorCodeEnum.TOKEN_EXPIRED);
     }
 
     /**

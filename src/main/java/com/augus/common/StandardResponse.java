@@ -30,6 +30,12 @@ public class StandardResponse {
         return this;
     }
 
+    public StandardResponse failure(ErrorCodeEnum errorCodeEnum){
+        this.meta = new Meta(errorCodeEnum.getCode(), errorCodeEnum.getMessage());
+        this.data = null;
+        return this;
+    }
+
     @Data
     class Meta{
         private Integer statusCode;
