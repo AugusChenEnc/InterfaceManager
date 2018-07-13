@@ -1,5 +1,6 @@
 package com.augus.controller;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,7 @@ public class WelcomeController {
 
     @RequestMapping("/")
     public String welcome(){
-        return "Welcome Spirng Boot Interface Manager";
+        throw new TokenExpiredException("token is Expired");
     }
 
 }
