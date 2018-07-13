@@ -36,6 +36,6 @@ public enum ErrorCodeEnum {
 
     @Override
     public String toString() {
-        return "code:" + this.code + ", message:" + this.message;
+        return "[" + this.code + "]" + this.message;
     }
 }
