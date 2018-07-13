@@ -7,6 +7,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jdk.nashorn.internal.parser.Token;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -35,39 +36,43 @@ public class JwtTokenUtil {
      * @return
      * @throws Exception
      */
-    public static String createToken(String data) throws Exception {
-        Date iatDate = new Date();
-        Date expiresDate = DateUtil.getExpiresDate(CALENDAR_FIELD, CALENDAR_INTERVAL);
+    public static String createToken(String data) {
+        try {
+            Date iatDate = new Date();
+            Date expiresDate = DateUtil.getExpiresDate(CALENDAR_FIELD, CALENDAR_INTERVAL);
 
-        // header Map
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("alg", "HS256");
-        map.put("typ", "JWT");
+            // header Map
+            Map<String, Object> map = new HashMap<>(16);
+            map.put("alg", "HS256");
+            map.put("typ", "JWT");
 
-        /**
-         *  header (头部)
-         *  withHeader : header
-         *  payload (中部)
-         *  withKeyId： key 编号
-         *  withIssuer: 签发者
-         *  withSubject: 面向的用户
-         *  withAudience： 接收方
-         *  withExpiresAt: 过期时间
-         *  withNotBefore：定义在什么时间之前，该jwt都是不可用的
-         *  withIssuedAt： jwt的签发时间
-         *  withJWTId： jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。
-         *  withClaim : data
-         *  sign
-         *  sign: sign
-         */
-        String token = JWT.create().withHeader(map)
-                .withIssuer("Service")
-                .withIssuedAt(iatDate)
-                .withExpiresAt(expiresDate)
-                .withClaim("data", data)
-                .sign(Algorithm.HMAC256(SECRET));
+            /**
+             *  header (头部)
+             *  withHeader : header
+             *  payload (中部)
+             *  withKeyId： key 编号
+             *  withIssuer: 签发者
+             *  withSubject: 面向的用户
+             *  withAudience： 接收方
+             *  withExpiresAt: 过期时间
+             *  withNotBefore：定义在什么时间之前，该jwt都是不可用的
+             *  withIssuedAt： jwt的签发时间
+             *  withJWTId： jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。
+             *  withClaim : data
+             *  sign
+             *  sign: sign
+             */
+            String token = JWT.create().withHeader(map)
+                    .withIssuer("Service")
+                    .withIssuedAt(iatDate)
+                    .withExpiresAt(expiresDate)
+                    .withClaim("data", data)
+                    .sign(Algorithm.HMAC256(SECRET));
 
-        return token;
+            return token;
+        } catch (UnsupportedEncodingException e) {
+            throw new TokenException("Token Generate Error: " + e);
+        }
     }
 
     /**
