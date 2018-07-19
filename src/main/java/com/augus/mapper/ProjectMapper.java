@@ -4,8 +4,10 @@ import com.augus.pojo.Project;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,5 +68,13 @@ public interface ProjectMapper {
      */
     int updateByPrimaryKey(Project record);
 
-    List<Project> findAllProject();
+    /**
+     * 查询所有的项目
+     * @param name
+     * @param startDate
+     * @param endDate
+     * @param status
+     * @return
+     */
+    List<Project> findAllProject(@Param("name") String name, @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("status") Integer status);
 }

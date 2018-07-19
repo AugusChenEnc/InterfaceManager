@@ -1,13 +1,14 @@
 package com.augus.controller;
 
+
+import com.alibaba.fastjson.JSON;
 import com.augus.common.StandardResponse;
+import com.augus.form.ProjectForm;
 import com.augus.pojo.Project;
 import com.augus.service.ProjectService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 项目管理控制器
@@ -21,13 +22,12 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @RequestMapping("/getAll")
-    public StandardResponse getAllProjectPage(@RequestParam(value="pageNum", defaultValue = "1") int pageNum,
-                                              @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
-                                              @RequestParam(value = "sort", defaultValue = "start_date desc") String sort){
+    @RequestMapping(value = "/getAll")
+    public StandardResponse getAllProjectPage(@RequestBody ProjectForm projectForm){
         StandardResponse response = new StandardResponse();
-        PageInfo<Project> pageInfo = projectService.findAllProject(pageNum,pageSize,sort);
+        System.out.println(JSON.toJSONString(projectForm));
 
+        PageInfo<Project> pageInfo = projectService.findAllProject(projectForm);
         return response.success(pageInfo);
     }
 }

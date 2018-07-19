@@ -132,10 +132,19 @@
   </update>
   
   <select id="findAllProject" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    select <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" />
     from im_project
+    <where>
+      1 = 1
+      <if test="name != null and name != ''">
+         and name like  concat('%', #{name},'%')
+      </if>
+      <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+        and start_date BETWEEN #{startDate} AND #{endDate}
+      </if>
+      <if test="status != null and status != '' and status != -1">
+        and status = #{status}
+      </if>
+    </where>
   </select>
 </mapper>
