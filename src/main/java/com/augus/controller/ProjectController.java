@@ -22,12 +22,19 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @RequestMapping(value = "/getAll")
+    @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     public StandardResponse getAllProjectPage(@RequestBody ProjectForm projectForm){
         StandardResponse response = new StandardResponse();
         System.out.println(JSON.toJSONString(projectForm));
 
         PageInfo<Project> pageInfo = projectService.findAllProject(projectForm);
         return response.success(pageInfo);
+    }
+
+    @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
+    public StandardResponse saveProject(@RequestBody Project project) {
+        StandardResponse response = new StandardResponse();
+        int result = projectService.insertProject(project);
+        return response.success(result > 0);
     }
 }

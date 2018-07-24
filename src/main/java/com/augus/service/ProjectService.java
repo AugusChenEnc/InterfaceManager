@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 项目管理服务类
@@ -29,5 +30,11 @@ public class ProjectService {
 
         return new PageInfo<>(projectList);
     }
+
+    public int insertProject(Project project) {
+        project.setId(UUID.randomUUID().toString());
+        return projectMapper.insert(project);
+    }
+
 
 }
