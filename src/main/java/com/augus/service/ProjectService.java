@@ -36,5 +36,11 @@ public class ProjectService {
         return projectMapper.insert(project);
     }
 
+    public int amendProject(Project project) {
+        return projectMapper.updateByPrimaryKeyWithBLOBs(project);
+    }
 
+    public int removeProject(String id) {
+        return projectMapper.deleteByPrimaryKey(id);
+    }
 }

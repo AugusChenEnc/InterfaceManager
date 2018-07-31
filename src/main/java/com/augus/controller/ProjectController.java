@@ -25,8 +25,6 @@ public class ProjectController {
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     public StandardResponse getAllProjectPage(@RequestBody ProjectForm projectForm){
         StandardResponse response = new StandardResponse();
-        System.out.println(JSON.toJSONString(projectForm));
-
         PageInfo<Project> pageInfo = projectService.findAllProject(projectForm);
         return response.success(pageInfo);
     }
@@ -37,4 +35,22 @@ public class ProjectController {
         int result = projectService.insertProject(project);
         return response.success(result > 0);
     }
+
+    @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
+    public StandardResponse updateProject(@RequestBody Project project) {
+        StandardResponse response = new StandardResponse();
+        int result = projectService.amendProject(project);
+        return response.success(result > 0);
+    }
+
+    @RequestMapping(value = "/removeProject/{id}", method = RequestMethod.DELETE)
+    public StandardResponse removeProject(@PathVariable("id") String id) {
+        StandardResponse response = new StandardResponse();
+        int result = projectService.removeProject(id);
+        if (result > 0) {
+            return response.success(true);
+        }
+        return response.failure("remove project error");
+    }
+
 }
