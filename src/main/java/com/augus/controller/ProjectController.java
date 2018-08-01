@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 项目管理控制器
  * @author Augus
@@ -21,6 +23,13 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @RequestMapping(value = "/getAllGroup", method = RequestMethod.GET)
+    public StandardResponse findAllProject(){
+        StandardResponse response = new StandardResponse();
+        List<List<Project>> multipleLists = projectService.findAllProjectNoPage();
+        return response.success(multipleLists);
+    }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     public StandardResponse getAllProjectPage(@RequestBody ProjectForm projectForm){

@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,33 @@ public class ProjectService {
     @Autowired
     private ProjectMapper projectMapper;
 
+    /**
+     * select all project records and no paging and unconditional
+     * @return
+     */
+    public List<List<Project>> findAllProjectNoPage(){
+
+        List<Project> projectList = projectMapper.findAllProject(null, null, null ,null);
+        List<List<Project>> multipleLists = new ArrayList<>();
+
+        int count = 0;
+        List<Project> splitLists = null;
+        for (Project project : projectList) {
+            if (count % 5 == 0) {
+                splitLists = new ArrayList<>();
+                multipleLists.add(splitLists);
+            }
+            splitLists.add(project);
+            count++;
+        }
+        return multipleLists;
+    }
+
+    /**
+     * select all project recodes paging and condition
+     * @param projectForm
+     * @return
+     */
     public PageInfo<Project> findAllProject(ProjectForm projectForm){
 
         PageHelper.startPage(projectForm.getPageNum(), projectForm.getPageSize(), projectForm.getSort());
