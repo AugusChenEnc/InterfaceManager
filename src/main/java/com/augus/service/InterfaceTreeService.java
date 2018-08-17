@@ -3,6 +3,7 @@ package com.augus.service;
 import com.augus.form.InterfaceTreeForm;
 import com.augus.mapper.InterfaceTreeMapper;
 import com.augus.pojo.InterfaceTree;
+import com.augus.pojo.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class InterfaceTreeService {
 
     @Autowired
     private InterfaceTreeMapper interfaceTreeMapper;
+
+    @Autowired
+    private ProjectService projectService;
 
     /**
      * 添加Tree结构
@@ -64,6 +68,14 @@ public class InterfaceTreeService {
      */
     public InterfaceTreeForm findInterfaceTreeByProjectId(String projectId){
         InterfaceTree tree = interfaceTreeMapper.findTreeByProjectId(projectId);
+        if (tree == null || tree.getId() == null) {
+            Project project = projectService.findProjectById(projectId);
+            tree = new InterfaceTree();
+            tree.setId(UUID.randomUUID().toString() + "_root");
+            tree.setProjectId(project.getId());
+            tree.setProjectName(project.getName());
+            interfaceTreeMapper.insert(tree);
+        }
         return treeDataGenerate(tree);
     }
 

@@ -59,6 +59,10 @@ public class ProjectService {
         return new PageInfo<>(projectList);
     }
 
+    public Project findProjectById(String id) {
+        return projectMapper.selectByPrimaryKey(id);
+    }
+
     public int insertProject(Project project) {
         project.setId(UUID.randomUUID().toString());
         return projectMapper.insert(project);
