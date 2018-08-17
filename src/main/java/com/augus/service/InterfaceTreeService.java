@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 接口管理树形服务
@@ -20,8 +21,48 @@ public class InterfaceTreeService {
     @Autowired
     private InterfaceTreeMapper interfaceTreeMapper;
 
+    /**
+     * 添加Tree结构
+     * @param treeForm
+     * @return
+     */
+    public boolean addTreeStructure(InterfaceTreeForm treeForm){
+        InterfaceTree tree = new InterfaceTree();
+        tree.setId(treeForm.getId());
+        tree.setText(treeForm.getText());
+        tree.setType(treeForm.getType());
+        tree.setIcon(treeForm.getIcon());
+        tree.setParentId(treeForm.getParentId());
+        return interfaceTreeMapper.insert(tree) > 0;
+    }
+
+    /**
+     * 修改Tree的名字
+     * @param treeForm
+     * @return
+     */
+    public boolean amendTreeStructure(InterfaceTreeForm treeForm){
+        InterfaceTree tree = new InterfaceTree();
+        tree.setId(treeForm.getId());
+        tree.setText(treeForm.getText());
+        return interfaceTreeMapper.updateByPrimaryKeySelective(tree) > 0;
+    }
+
+    /**
+     * 删除tree
+     * @param id
+     * @return
+     */
+    public boolean deleteTreeStructure(String id){
+        return interfaceTreeMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    /**
+     * 查询数据并生成Tree结构
+     * @param projectId
+     * @return
+     */
     public InterfaceTreeForm findInterfaceTreeByProjectId(String projectId){
-        System.out.println(projectId);
         InterfaceTree tree = interfaceTreeMapper.findTreeByProjectId(projectId);
         return treeDataGenerate(tree);
     }

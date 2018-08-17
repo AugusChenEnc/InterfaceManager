@@ -27,6 +27,9 @@ public class InterfaceTreeForm {
     private String icon;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String parentId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<InterfaceTreeForm> children;
 
 }
