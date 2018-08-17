@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.augus.mapper.InterfaceTreeMapper">
+  <resultMap id="BaseResultMap" type="com.augus.pojo.InterfaceTree">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, text, type, icon, parent_id, project_id, project_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from im_tree
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from im_tree
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.augus.pojo.InterfaceTree">
+    insert into im_tree (id, text, type, 
+      icon, parent_id, project_id, 
+      project_name)
+    values (#{id,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.augus.pojo.InterfaceTree">
+    insert into im_tree
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.augus.pojo.InterfaceTree">
+    update im_tree
+    <set>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.augus.pojo.InterfaceTree">
+    update im_tree
+    set text = #{text,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findTreeByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from im_tree
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findTreeByParentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from im_tree
+    where parent_id = #{parentId,jdbcType=VARCHAR}
+  </select>
+</mapper>
