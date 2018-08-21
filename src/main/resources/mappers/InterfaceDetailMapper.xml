@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.augus.mapper.InterfaceDetailMapper">
+  <resultMap id="BaseResultMap" type="com.augus.pojo.InterfaceDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tree_id" jdbcType="VARCHAR" property="treeId" />
+    <result column="req_address" jdbcType="VARCHAR" property="reqAddress" />
+    <result column="req_type" jdbcType="VARCHAR" property="reqType" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.augus.pojo.InterfaceDetailWithBLOBs">
+    <result column="req_address_explain" jdbcType="LONGVARCHAR" property="reqAddressExplain" />
+    <result column="req_data" jdbcType="LONGVARCHAR" property="reqData" />
+    <result column="req_data_explain" jdbcType="LONGVARCHAR" property="reqDataExplain" />
+    <result column="resp_data" jdbcType="LONGVARCHAR" property="respData" />
+    <result column="resp_data_explain" jdbcType="LONGVARCHAR" property="respDataExplain" />
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tree_id, req_address, req_type
+  </sql>
+  <sql id="Blob_Column_List">
+    req_address_explain, req_data, req_data_explain, resp_data, resp_data_explain, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from im_interface_details
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from im_interface_details
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.augus.pojo.InterfaceDetailWithBLOBs">
+    insert into im_interface_details (id, tree_id, req_address, 
+      req_type, req_address_explain, req_data, 
+      req_data_explain, resp_data, resp_data_explain, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{treeId,jdbcType=VARCHAR}, #{reqAddress,jdbcType=VARCHAR}, 
+      #{reqType,jdbcType=VARCHAR}, #{reqAddressExplain,jdbcType=LONGVARCHAR}, #{reqData,jdbcType=LONGVARCHAR}, 
+      #{reqDataExplain,jdbcType=LONGVARCHAR}, #{respData,jdbcType=LONGVARCHAR}, #{respDataExplain,jdbcType=LONGVARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.augus.pojo.InterfaceDetailWithBLOBs">
+    insert into im_interface_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="treeId != null">
+        tree_id,
+      </if>
+      <if test="reqAddress != null">
+        req_address,
+      </if>
+      <if test="reqType != null">
+        req_type,
+      </if>
+      <if test="reqAddressExplain != null">
+        req_address_explain,
+      </if>
+      <if test="reqData != null">
+        req_data,
+      </if>
+      <if test="reqDataExplain != null">
+        req_data_explain,
+      </if>
+      <if test="respData != null">
+        resp_data,
+      </if>
+      <if test="respDataExplain != null">
+        resp_data_explain,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="treeId != null">
+        #{treeId,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddress != null">
+        #{reqAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reqType != null">
+        #{reqType,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddressExplain != null">
+        #{reqAddressExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reqData != null">
+        #{reqData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reqDataExplain != null">
+        #{reqDataExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="respData != null">
+        #{respData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="respDataExplain != null">
+        #{respDataExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.augus.pojo.InterfaceDetailWithBLOBs">
+    update im_interface_details
+    <set>
+      <if test="treeId != null">
+        tree_id = #{treeId,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddress != null">
+        req_address = #{reqAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reqType != null">
+        req_type = #{reqType,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddressExplain != null">
+        req_address_explain = #{reqAddressExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reqData != null">
+        req_data = #{reqData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reqDataExplain != null">
+        req_data_explain = #{reqDataExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="respData != null">
+        resp_data = #{respData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="respDataExplain != null">
+        resp_data_explain = #{respDataExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.augus.pojo.InterfaceDetailWithBLOBs">
+    update im_interface_details
+    set tree_id = #{treeId,jdbcType=VARCHAR},
+      req_address = #{reqAddress,jdbcType=VARCHAR},
+      req_type = #{reqType,jdbcType=VARCHAR},
+      req_address_explain = #{reqAddressExplain,jdbcType=LONGVARCHAR},
+      req_data = #{reqData,jdbcType=LONGVARCHAR},
+      req_data_explain = #{reqDataExplain,jdbcType=LONGVARCHAR},
+      resp_data = #{respData,jdbcType=LONGVARCHAR},
+      resp_data_explain = #{respDataExplain,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.augus.pojo.InterfaceDetail">
+    update im_interface_details
+    set tree_id = #{treeId,jdbcType=VARCHAR},
+      req_address = #{reqAddress,jdbcType=VARCHAR},
+      req_type = #{reqType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="findByTreeId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from im_interface_details
+    where tree_id = #{treeId,jdbcType=VARCHAR}
+  </select>
+</mapper>
